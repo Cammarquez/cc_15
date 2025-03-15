@@ -17,7 +17,6 @@ function addRiskItem() {
         <button class="removeButton">Remove</button>
     `; // This is the template literal that will be added to the risk card. 
 
-
     const riskDashboard = document.getElementById('riskDashboard'); // Defines the riskDashboard element
     riskDashboard.appendChild(riskCard); // Appends the riskCard to the riskDashboard
 
@@ -25,10 +24,13 @@ function addRiskItem() {
 }
 
 // Task 3
-const removeRiskButton = riskCard.querySelector('.removeButton'); // Select the remove button from the risk card
-removeRiskButton.createElement('button'); // Create a new button element
-removeRiskButton.addEventListener('click', () => { // Add an event listener to the remove button
-    riskCard.remove(); // Remove the risk card when the button is clicked
+document.getElementById('riskDashboard').addEventListener('click', (event) => {
+    if (event.target.classList.contains('removeButton')) { // Check if the clicked element is a remove button
+        const card = event.target.closest('.riskCard'); // Find the closest risk card
+        if (card) {
+            card.remove(); // Remove the risk card
+        }
+    }
 });
 
 // Task 4
@@ -116,9 +118,24 @@ function decreaseRisk() {
                     return;
                 }
 
-                p.textContent = `Risk Level: ${newRiskLevel}`;
+                p.textContent = `Risk Level: ${newRiskLevel}`; //Rewrites the text content
             }
         });
     });
     highlightRiskLevel(); // Highlight the risk level
 }
+
+// Task 6
+document.getElementById('riskDashboard').addEventListener('click', (event) => {
+    const card = event.target.closest('.riskCard');
+    event.stopPropagation(); //Stops the event from also calling the dashboard wide event
+    if (card) {
+        const riskName = card.querySelector('h3').textContent; // Extract the risk name from the card
+        const riskDescription = card.querySelector('p:nth-of-type(1)').textContent.split(':')[1].trim(); // Extract the risk description
+        const riskLevel = card.querySelector('p:nth-of-type(2)').textContent.split(':')[1].trim(); // Extract the risk level
+        console.log(`Card clicked: Name: ${riskName}, Description: ${riskDescription}, Risk Level: ${riskLevel}`); //Logs to the console
+    }
+});
+document.addEventListener('click', () => { //Creates the dashboard wide event
+    console.log('Page was clicked');
+});
