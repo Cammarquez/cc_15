@@ -64,13 +64,15 @@
             <input type="text" id="riskName" placeholder="Enter risk name" required>
             <input type="text" id="riskDescription" placeholder="Enter risk description" required>
             <select id="riskLevel">
-                <option value="">None</option>
+                <option value="None">None</option>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
             <button type="button" id="addRiskButton" onclick="addRiskItem(); highlightRiskLevel();">Add Risk</button>
-            <button type="button" id="removeRiskButton" onclick="removeHighlightRiskLevel();">Remove Risk</button>
+            <button type="button" id="removeRiskButton" onclick="removeHighlightRiskLevel();">Remove Highlights</button>
+            <button type="button" id="increaserRiskButton" onclick="increaseRisk();">Increase All Risks</button>
+            <button type="button" id="decreaserRiskButton" onclick="decreaseRisk();">Decrease All Risks</button>
         </form>
     </main>
     <footer>

@@ -13,14 +13,10 @@ function addRiskItem() {
     riskCard.innerHTML = `
         <h3>${riskName}</h3>
         <p><strong>Description:</strong> ${riskDescription}</p>
-        <p><strong>Risk Level:</strong> ${riskLevel.charAt(0).toUpperCase() + riskLevel.slice(1)}</p>
+        <p>Risk Level: ${riskLevel.charAt(0).toUpperCase() + riskLevel.slice(1)}</p>
         <button class="removeButton">Remove</button>
     `; // This is the template literal that will be added to the risk card. 
 
-    const removeButton = riskCard.querySelector('.removeButton');
-    removeButton.addEventListener('click', () => {
-        riskCard.remove(); // Removes the risk card when the button is clicked
-    });
 
     const riskDashboard = document.getElementById('riskDashboard'); // Defines the riskDashboard element
     riskDashboard.appendChild(riskCard); // Appends the riskCard to the riskDashboard
@@ -66,4 +62,63 @@ function removeHighlightRiskLevel() {
     riskCards.forEach((card) => {
         card.style.backgroundColor = 'lightgrey'; // Remove background color
     });
+}
+
+// Task 5
+function increaseRisk() {
+    const riskCards = document.querySelectorAll('.riskCard'); // Select all risk cards
+    riskCards.forEach((card) => { // Loop through each risk card
+        const paragraphs = card.querySelectorAll('p'); // Get all <p> elements in the card
+        paragraphs.forEach((p) => { // Loop through each <p> element
+            if (p.textContent.includes('Risk Level:')) { // Check if the <p> contains "Risk Level:"
+                const riskLevel = p.textContent.split(':')[1].trim(); // Extract the risk level value in that <p> element by splitting the text and trimming the whitespace
+
+                let newRiskLevel; // Define the new risk level
+                if (riskLevel === 'None') { // Checks if the risk level is None
+                    newRiskLevel = 'Low'; // Sets the new risk level to Low
+                } else if (riskLevel === 'Low') { // Checks if the risk level is Low
+                    newRiskLevel = 'Medium'; // Sets the new risk level to Medium
+                } else if (riskLevel === 'Medium') { // Checks if the risk level is Medium
+                    newRiskLevel = 'High'; // Sets the new risk level to High
+                } else if (riskLevel === 'High') {  // Checks if the risk level is High
+                    newRiskLevel = 'High'; // Already at the highest level
+                } else {
+                    console.warn('Unknown risk level:', riskLevel); // Debugging for unknown risk levels
+                    return;
+                }
+               p.textContent = `Risk Level: ${newRiskLevel}`;
+            }
+        });
+    });
+    highlightRiskLevel(); // Highlight the risk level
+}
+
+function decreaseRisk() {
+    const riskCards = document.querySelectorAll('.riskCard'); // Select all risk cards
+    riskCards.forEach((card) => { // Loop through each risk card
+        const paragraphs = card.querySelectorAll('p'); // Get all <p> elements in the card
+        paragraphs.forEach((p) => { // Loop through each <p> element
+            if (p.textContent.includes('Risk Level:')) { // Check if the <p> contains "Risk Level:"
+                const riskLevel = p.textContent.split(':')[1].trim(); // Extract the risk level value in that <p> element by splitting the text and trimming the whitespace
+
+                // Decrease the risk level
+                let newRiskLevel;
+                if (riskLevel === 'None') {
+                    newRiskLevel = 'None'; // Already at the lowest level
+                } else if (riskLevel === 'Low') {
+                    newRiskLevel = 'None';
+                } else if (riskLevel === 'Medium') {
+                    newRiskLevel = 'Low';
+                } else if (riskLevel === 'High') {
+                    newRiskLevel = 'Medium';
+                } else {
+                    console.warn('Unknown risk level:', riskLevel); // Debugging for unknown risk levels
+                    return;
+                }
+
+                p.textContent = `Risk Level: ${newRiskLevel}`;
+            }
+        });
+    });
+    highlightRiskLevel(); // Highlight the risk level
 }
